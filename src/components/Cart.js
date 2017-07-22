@@ -1,17 +1,19 @@
-import React, { Component, PropTypes } from 'react'
-import CartItem from './CartItem'
-import { connect } from 'react-redux'
-import { checkout, removeFromCart} from '../actions'
-import { getTotal, getCartProducts, getCheckoutError, isCheckoutPending } from '../reducers'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import CartItem from './CartItem';
+import { connect } from 'react-redux';
+import { checkout, removeFromCart} from '../actions';
+import { getTotal, getCartProducts, getCheckoutError, isCheckoutPending } from '../reducers';
 
 class Cart extends Component {
-  render() {
-    const { products, total, error, checkoutPending, checkout, removeFromCart } = this.props
+  constructor(props){
+    super(props);
+    this.cartItems = this.cartItems.bind(this);
+  }
 
-    const hasProducts = products.length > 0
-    const checkoutAllowed = hasProducts && !checkoutPending
-
-    const nodes = !hasProducts ?
+  cartItems(products){
+    const { removeFromCart } = this.props;
+    return products.length <= 0 ?
       <em>Please add some products to cart.</em> :
       products.map(product =>
         <CartItem
@@ -20,14 +22,20 @@ class Cart extends Component {
           quantity={product.quantity}
           key={product.id}
           onRemove={() => removeFromCart(product.id)}/>
-    )
+      );
+  }
+
+  render() {
+    const {products, total, error, checkoutPending, checkout } = this.props;
+    const checkoutAllowed = products.length > 0 && !checkoutPending;
 
     return (
       <div>
         <h3>Your Cart</h3>
-        <div>{nodes}</div>
+        <div>{this.cartItems(products)}</div>
         <p>Total: &#36;{total}</p>
-        <button onClick={checkout}
+        <button
+          onClick={checkout}
           disabled={checkoutAllowed ? '' : 'disabled'}>
           Checkout
         </button>
@@ -54,12 +62,13 @@ Cart.propTypes = {
   removeFromCart: PropTypes.func.isRequired
 }
 
-export default connect(
-  state => ({
+function mapStateToProps(state) {
+  return {
     products: getCartProducts(state),
     total: getTotal(state),
     error: getCheckoutError(state),
     checkoutPending: isCheckoutPending(state)
-  }),
-  { checkout, removeFromCart }
-)(Cart)
+  };
+}
+
+export default connect(mapStateToProps,{ checkout, removeFromCart })(Cart)

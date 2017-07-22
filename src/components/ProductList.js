@@ -1,26 +1,35 @@
-import React, { Component, PropTypes } from 'react'
-import ProductItem from './ProductItem'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import ProductItem from './ProductItem';
 
-import { connect } from 'react-redux'
-import { addToCart } from '../actions'
-import { getVisibleProducts } from '../reducers/products'
+import { connect } from 'react-redux';
+import { addToCart } from '../actions';
+import { getVisibleProducts } from '../reducers/products';
 
 
 class ProductList extends Component {
-  render() {
-    const { products, addToCart } = this.props
+  constructor(props){
+    super(props);
+    this.createProductItems = this.createProductItems.bind(this);
+  }
 
+  createProductItems() {
+    const { products, addToCart } = this.props;
+    return products.map(product =>
+      <ProductItem
+        key={product.id}
+        product={product}
+        onAddToCartClicked={() => addToCart(product.id)} />
+    );
+  }
+
+  render() {
     return (
       <div>
         <h3>Products</h3>
-        {products.map(product =>
-          <ProductItem
-            key={product.id}
-            product={product}
-            onAddToCartClicked={() => addToCart(product.id)} />
-        )}
+        {this.createProductItems()}
       </div>
-    )
+    );
   }
 }
 
@@ -32,9 +41,12 @@ ProductList.propTypes = {
     inventory: PropTypes.number.isRequired
   })).isRequired,
   addToCart: PropTypes.func.isRequired
-}
+};
 
-export default connect(
-  state => ({ products: getVisibleProducts(state.products) }),
-  { addToCart }
-)(ProductList)
+function mapStateToProps(state) {
+   return {
+      products: getVisibleProducts(state.products)
+   };
+ }
+
+export default connect(mapStateToProps,{ addToCart })(ProductList);

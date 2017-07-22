@@ -35,8 +35,8 @@ const shoppingCart = combineReducers({
 })
 
 export default function root(state, action) {
-  if(action.type === ADD_TO_CART && state.products.byId[action.productId].inventory <= 0)
+  if(action.type === ADD_TO_CART && state.products.byId[action.productId].inventory <= 0){
     return state;
-
+  }
   return shoppingCart(state, action)
 }
