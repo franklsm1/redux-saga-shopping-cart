@@ -1,4 +1,4 @@
-export const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS';
+export const GET_PRODUCTS = 'GET_PRODUCTS';
 export const RECEIVE_PRODUCTS = 'RECEIVE_PRODUCTS';
 
 export const ADD_TO_CART = 'ADD_TO_CART';
@@ -9,9 +9,10 @@ export const CHECKOUT_SUCCESS = 'CHECKOUT_SUCCESS';
 export const CHECKOUT_FAILURE = 'CHECKOUT_FAILURE';
 
 
-export function getAllProducts() {
+export function getProducts(brand) {
   return {
-    type: GET_ALL_PRODUCTS
+    type: GET_PRODUCTS,
+    brand
   };
 }
 

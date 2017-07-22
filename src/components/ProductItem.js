@@ -26,6 +26,8 @@ export default class ProductItem extends Component {
         <Product
           title={product.title}
           price={product.price}
+          inventory={product.inventory}
+          brand={product.brand}
           button={this.addToCartButton(product)} />
       </div>
     );
@@ -35,6 +37,7 @@ export default class ProductItem extends Component {
 ProductItem.propTypes = {
   product: PropTypes.shape({
     id: PropTypes.number,
+    brand: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     inventory: PropTypes.number.isRequired

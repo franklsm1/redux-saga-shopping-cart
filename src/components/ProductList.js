@@ -3,14 +3,22 @@ import PropTypes from 'prop-types';
 import ProductItem from './ProductItem';
 
 import { connect } from 'react-redux';
-import { addToCart } from '../actions';
+import { addToCart, getProducts } from '../actions';
 import { getVisibleProducts } from '../reducers/products';
 
 
 class ProductList extends Component {
   constructor(props){
     super(props);
+    this.state = {value: ''};
+
+    this.handleChange = this.handleChange.bind(this);
     this.createProductItems = this.createProductItems.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+    this.props.getProducts(event.target.value.toUpperCase());
   }
 
   createProductItems() {
@@ -27,6 +35,12 @@ class ProductList extends Component {
     return (
       <div>
         <h3>Products</h3>
+        <label>
+          Filter by Brand:  
+          <input type="text" value={this.state.value} onChange={this.handleChange}/>
+        </label>
+        <br/>
+        <br/>
         {this.createProductItems()}
       </div>
     );
@@ -49,4 +63,4 @@ function mapStateToProps(state) {
    };
  }
 
-export default connect(mapStateToProps,{ addToCart })(ProductList);
+export default connect(mapStateToProps,{ addToCart, getProducts })(ProductList);
