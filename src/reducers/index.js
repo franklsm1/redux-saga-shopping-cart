@@ -1,18 +1,18 @@
-import { combineReducers } from 'redux'
-import { ADD_TO_CART } from '../actions'
-import { default as cart, getQuantity, getAddedIds } from './cart'
-import { default as products, getProduct } from './products'
+import { combineReducers } from 'redux';
+import { ADD_TO_CART } from '../actions';
+import { default as cart, getQuantity, getAddedIds } from './cart';
+import { default as products, getProduct } from './products';
 
 export function getCart(state) {
-  return state.cart
+  return state.cart;
 }
 
 export function getCheckoutError(state) {
-  return state.cart.checkoutStatus.error
+  return state.cart.checkoutStatus.error;
 }
 
 export function isCheckoutPending(state) {
-  return state.cart.checkoutStatus.checkoutPending
+  return state.cart.checkoutStatus.checkoutPending;
 }
 
 export function getTotal(state) {

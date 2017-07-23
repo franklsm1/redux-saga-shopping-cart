@@ -15,7 +15,7 @@ export function* getProducts(action) {
 
 export function* checkout() {
     try {
-      const cart = yield select(getCart); //passes the current state into getCart
+      const cart = yield select(getCart); //passes the current state into getCart()
       yield call(api.buyProducts, cart);
       yield put(actions.checkoutSuccess(cart));
     } catch(error) {
@@ -33,13 +33,13 @@ export function* watchGetProducts() {
 
 export function* watchCheckout() {
   while(true) {
-    yield take(actions.CHECKOUT_REQUEST);
     /*
       ***THIS IS A BLOCKING CALL***
       watchCheckout will ignore any CHECKOUT_REQUEST event until
       the current checkout completes, either by success or by error.
       i.e. concurrent CHECKOUT_REQUEST are not allowed
     */
+    yield take(actions.CHECKOUT_REQUEST);
     yield call(checkout);
   }
 }
