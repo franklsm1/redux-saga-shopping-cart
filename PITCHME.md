@@ -1,21 +1,20 @@
-#Redux-Saga w/ a brief overview of ES6 generators
+## Redux-Saga Lunch and learn with an overview of ES6 generator functions
+
 ---
-## Redux-Saga Overview
-- Node package that makes asynchronous things like data fetching in React/Redux applications easier and better
-- Redux middleware, which means it has access to the full application state and can dispatch redux actions
-- Uses ES6 Generator functions to allow for asynchronous things to be easy to read, write, and test
-- Similar to `redux-thunk` if you have used it before, but eliminates getting stuck in callback hell as well as being much simpler to test
----
-## ES6 Generators Overview
+
+### ES6 Generators Overview
 - Very similar to the Python term [generator](https://docs.python.org/3/glossary.html#term-generator)
-- Will halt execution of a function for an indefinite period of time when the `yield` keyword is used inside a generator function
-- The code that invoked the generator will then be able to control when it continues
-- Every time execution stops you can return ("yield") a value back to the function to continue execution with
-- Provide essentially the same functionality as ES7 `async/await` keywords (most likely built on top of generators), but slightly more complex
-- Used by redux-saga as opposed to using `async/await` since testing generators is much much simpler
+
+- Halt execution of a function for an indefinite period of time when the `yield` keyword is used inside of a `function*`
+
+- Every time execution stops you can return, "yield", a value back to the function to continue execution with
+
+- Provides essentially the same functionality as ES7 `async/await` keywords (which is most likely built on top of generators), but slightly more complex
+
 +++
-For example, take code were used to writing like this:
-```
+
+Take code we are used to writing like this:
+```javascript
 User.findbyId(id)
   .then(user => {
     user.getFavoriteIceCreams()
@@ -24,17 +23,19 @@ User.findbyId(id)
       });
   });
 ```
-With generators it will look like:
-```
+In a generator function it would look like:
+```javascript
 let user = yield User.findbyId(id);
 let iceCreams = yield user.getFavoriteIceCreams();
 console.log(iceCreams);
 ```
-This asynchronous code looks synchronous and is easier to read
+As you can see this makes asynchronous code look synchronous and is much easier to read
+
 +++
-Consider the following code:
-```
-function *generatorExample() {
+
+### Generator Function Example
+```javascript
+function* generatorExample() {
   console.log('start here');
   let a = yield 'first yield';
   console.log(a);
@@ -42,7 +43,6 @@ function *generatorExample() {
   console.log(b);
   return 'all finished';
 }
-
 let iterator = generatorExample();
 let next = iterator.next();
 console.log(next);
@@ -51,13 +51,37 @@ console.log(next);
 next = iterator.next('I am now the b variable');
 console.log(next);
 ```
+@[9-10]
+@[2](`start here`)
+@[3]
+@[11](`{value: "first yield", done: false}`)
+@[12]
+@[4](`I am now the a variable`)
+@[5]
+@[13](`{value: "second yield", done: false}`)
+@[14]
+@[6](`I am now the b variable`)
+@[7]
+@[15](`{value: "all finished", done: true}`)
+
+---
+
+### Redux-Saga Overview
+- Node package that makes asynchronous things like data fetching in React/Redux apps easier and better
+
+- Redux middleware, which means it has access to the full application state and can dispatch redux actions
+
+- Uses generator functions as opposed to using `async/await` since testing generators is easier
+
+- Similar to `redux-thunk`, but eliminates getting stuck in callback hell as well as being simpler to test
+
 +++
-It will output the following:
-```
-start here
-{value: "first yield", done: false}
-I am now the a variable
-{value: "second yield", done: false}
-I am now the b variable
-{value: "all finished", done: true}
-```
+
+### Redux-saga Example
+
+---
+# Live Demo
+---
+### Useful links
+- [redux-saga API](https://redux-saga.js.org/docs/api/)
+- [into to ES6 generator functions](http://thejsguy.com/2016/10/15/a-practical-introduction-to-es6-generator-functions.html)
