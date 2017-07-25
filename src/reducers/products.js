@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { RECEIVE_PRODUCTS } from '../actions/products';
+import { RECEIVE_PRODUCTS, RECEIVE_PRODUCTS_BY_BRAND } from '../actions/products';
 import { ADD_TO_CART, REMOVE_FROM_CART } from '../actions/cart';
 
 function products(state, action) {
@@ -29,6 +29,18 @@ function byId(state = {}, action) {
           return obj;
         }, {})
       };
+    case RECEIVE_PRODUCTS_BY_BRAND:
+        return {
+          ...state,
+          ...action.products.reduce((obj, product) => {
+            //if product id is already in the state use its current inventory
+            if (state[product.id]) {
+              product.inventory = state[product.id].inventory;
+            }
+            obj[product.id] = product;
+            return obj;
+          }, {})
+        };
     default:
       const { productId } = action;
       if (productId) {
@@ -44,6 +56,7 @@ function byId(state = {}, action) {
 function visibleIds(state = [], action) {
   switch (action.type) {
     case RECEIVE_PRODUCTS:
+    case RECEIVE_PRODUCTS_BY_BRAND:
       return action.products.map(product => product.id);
     default:
       return state;

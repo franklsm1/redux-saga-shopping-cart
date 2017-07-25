@@ -25,7 +25,7 @@ describe('Saga tests', () => {
     expect(next.value).toEqual(call(api.getProductsByBrand, brand));
 
     next = generator.next(products);
-    expect(next.value).toEqual(put(actions.receiveProducts(products)));
+    expect(next.value).toEqual(put(actions.receiveProductsByBrand(products)));
   });
 
   it('watchGetProducts Saga test', () => {

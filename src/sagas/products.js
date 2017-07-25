@@ -9,7 +9,7 @@ export function* getAllProducts() {
 
 export function* getProductsByBrand(action) {
   const products = yield call(api.getProductsByBrand, action.brand);
-  yield put(actions.receiveProducts(products));
+  yield put(actions.receiveProductsByBrand(products));
 }
 
 export function* watchGetProducts() {
