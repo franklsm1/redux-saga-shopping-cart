@@ -77,10 +77,27 @@ console.log(next);
 
 +++
 
-### Redux-saga Example
+### React example of what not to do
+You've seen something like this in a react component:
+```javascript
+fetch(url)
+  .then((response) => {
+      if (!response.ok)
+          throw Error(response.statusText);
+      return response;
+  })
+  .then((response) => response.json())
+  .then((items) => this.setState({ items }))
+  .catch(() => this.setState({ hasErrored: true }));
+```
+**This is very bad!**
+1. Components shouldn't include logic to fetch data
+2. They shouldn't store the data in its own state
 
 ---
+
 # Live Demo
+
 ---
 ### Useful links
 - [redux-saga API](https://redux-saga.js.org/docs/api/)
