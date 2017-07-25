@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import CartItem from './CartItem';
 import { connect } from 'react-redux';
-import { checkout, removeFromCart} from '../actions';
+import { checkout, removeFromCart} from '../actions/cart';
 import { getTotal, getCartProducts, getCheckoutError, isCheckoutPending } from '../reducers';
 
 class Cart extends Component {

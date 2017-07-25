@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import ProductItem from './ProductItem';
 
 import { connect } from 'react-redux';
-import { addToCart, getProducts } from '../actions';
+import { getProducts } from '../actions/products';
+import { addToCart } from '../actions/cart';
 import { getVisibleProducts } from '../reducers/products';
 
 
@@ -36,7 +37,7 @@ class ProductList extends Component {
       <div>
         <h3>Products</h3>
         <label>
-          Filter by Brand:  
+          Filter by Brand:
           <input type="text" value={this.state.value} onChange={this.handleChange}/>
         </label>
         <br/>

@@ -6,7 +6,7 @@ import _products from './products';
 const TIMEOUT = 1000; // 1 second wait
 const MAX_CHECKOUT = 2; // max different items
 
-function filterProducts(brand){
+function filterProducts(brand) {
   return _products.filter(product =>
     brand ? product.brand.toUpperCase().includes(brand) : true);
 }

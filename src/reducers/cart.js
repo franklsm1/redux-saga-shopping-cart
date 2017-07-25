@@ -5,7 +5,7 @@ import {
   CHECKOUT_REQUEST,
   CHECKOUT_SUCCESS,
   CHECKOUT_FAILURE
-} from '../actions';
+} from '../actions/cart';
 
 const initialState = {
   checkoutStatus: {
