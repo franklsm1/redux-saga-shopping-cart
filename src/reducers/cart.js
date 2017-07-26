@@ -35,7 +35,7 @@ function checkoutStatus(state = initialState.checkoutStatus, action ) {
 }
 
 function quantityById(state = initialState.quantityById, action) {
-  const { productId } = action
+  const { productId } = action;
   switch (action.type) {
     case CHECKOUT_SUCCESS:
       return initialState.quantityById;
@@ -64,9 +64,9 @@ export default combineReducers({
 });
 
 export function getQuantity(state, productId) {
-  return state.quantityById[productId] || 0
+  return state.quantityById[productId] || 0;
 }
 
 export function getAddedIds(state) {
-  return Object.keys(state.quantityById)
+  return Object.keys(state.quantityById);
 }

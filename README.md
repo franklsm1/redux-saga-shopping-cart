@@ -1,11 +1,15 @@
 # Redux Saga Shopping Cart Example
-Took the shopping cart example from the [redux-saga repo](https://github.com/redux-saga/redux-saga/tree/master/examples/shopping-cart) and turned it into a standalone Node.js app with additional redux-saga functionality and features.
+Took the shopping cart example from the [redux-saga repo](https://github.com/redux-saga/redux-saga/tree/master/examples/shopping-cart) and turned it into a standalone Node.js app with additional redux-saga functionality and features as well as major refactoring for ease of understanding.
 
 __Install [Yarn](https://yarnpkg.com/en/)(a better npm):__
 
 Run `npm install -g yarn` to install Yarn globally if not done already
 
-__Available Scripts:__
+__Install all the dependencies:__
+
+`yarn install`
+
+__Then use one of the available scripts:__
 
 In the project directory, you can run:
 
@@ -19,7 +23,7 @@ You will also see any lint errors in the console.
 
 `yarn test`
 
-Launches the test runner in the interactive watch mode.
+Runs all of your files under all \_\_test\_\_ directories as well as all files ending with `.test.js`
 
 `yarn build`
 
