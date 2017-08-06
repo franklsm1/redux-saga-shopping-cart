@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { RECEIVE_PRODUCTS, RECEIVE_PRODUCTS_BY_BRAND } from '../actions/products';
+import { RECEIVE_PRODUCTS, FILTER_PRODUCTS } from '../actions/products';
 import { ADD_TO_CART, REMOVE_FROM_CART } from '../actions/cart';
 
 function products(state, action) {
@@ -19,6 +19,17 @@ function products(state, action) {
   }
 }
 
+function filterProducts(state) {
+  let filteredProducts = [];
+  for( var id in state.byId ) {
+    let product = getProduct(state, id);
+    if (product.brand.toUpperCase().includes(state.filterTerm)) {
+      filteredProducts.push(product);
+    }
+  }
+  return filteredProducts;
+}
+
 function byId(state = {}, action) {
   switch (action.type) {
     case RECEIVE_PRODUCTS:
@@ -29,18 +40,6 @@ function byId(state = {}, action) {
           return obj;
         }, {})
       };
-    case RECEIVE_PRODUCTS_BY_BRAND:
-        return {
-          ...state,
-          ...action.products.reduce((obj, product) => {
-            //if product id is already in the state use its current inventory
-            if (state[product.id]) {
-              product.inventory = state[product.id].inventory;
-            }
-            obj[product.id] = product;
-            return obj;
-          }, {})
-        };
     default:
       const { productId } = action;
       if (productId) {
@@ -56,16 +55,27 @@ function byId(state = {}, action) {
 function visibleIds(state = [], action) {
   switch (action.type) {
     case RECEIVE_PRODUCTS:
-    case RECEIVE_PRODUCTS_BY_BRAND:
       return action.products.map(product => product.id);
     default:
       return state;
   }
 }
 
+function filterTerm(state = '', action) {
+  switch (action.type) {
+    case FILTER_PRODUCTS:
+        return action.brand;
+      case  RECEIVE_PRODUCTS:
+        return '';
+    default:
+        return state;
+  }
+}
+
 export default combineReducers({
   byId,
-  visibleIds
+  visibleIds,
+  filterTerm
 });
 
 export function getProduct(state, id) {
@@ -73,5 +83,7 @@ export function getProduct(state, id) {
 }
 
 export function getVisibleProducts(state) {
-  return state.visibleIds.map(id => getProduct(state, id));
+  return state.filterTerm ?
+    filterProducts(state):
+    state.visibleIds.map(id => getProduct(state, id));
 }

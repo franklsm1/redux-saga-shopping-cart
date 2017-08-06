@@ -1,5 +1,5 @@
 import { put, call, takeEvery } from 'redux-saga/effects';
-import { getAllProducts, getProductsByBrand, watchGetProducts} from '../products';
+import { getAllProducts, watchGetProducts} from '../products';
 import { api } from '../../services';
 import * as actions from '../../actions/products';
 
@@ -16,23 +16,11 @@ describe('Saga tests', () => {
     expect(next.value).toEqual(put(actions.receiveProducts(products)));
   });
 
-  it('getProducts by brand Saga test', () => {
-    let brand = "test";
-    let action = { brand };
-    const generator = getProductsByBrand(action);
-
-    let next = generator.next();
-    expect(next.value).toEqual(call(api.getProductsByBrand, brand));
-
-    next = generator.next(products);
-    expect(next.value).toEqual(put(actions.receiveProductsByBrand(products)));
-  });
-
   it('watchGetProducts Saga test', () => {
     const generator = watchGetProducts();
 
     let next = generator.next();
-    expect(next.value).toEqual(takeEvery(actions.GET_PRODUCTS, getProductsByBrand));
+    expect(next.value).toEqual(takeEvery(actions.GET_PRODUCTS, getAllProducts));
   });
 });
 

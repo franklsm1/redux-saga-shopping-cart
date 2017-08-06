@@ -7,15 +7,10 @@ export function* getAllProducts() {
   yield put(actions.receiveProducts(products));
 }
 
-export function* getProductsByBrand(action) {
-  const products = yield call(api.getProductsByBrand, action.brand);
-  yield put(actions.receiveProductsByBrand(products));
-}
-
 export function* watchGetProducts() {
   /*
     takeEvery will fork a new `getProducts` task on each GET_PRODUCTS action
     i.e. concurrent GET_PRODUCTS actions are allowed
   */
-  yield takeEvery(actions.GET_PRODUCTS, getProductsByBrand);
+  yield takeEvery(actions.GET_PRODUCTS, getAllProducts);
 }

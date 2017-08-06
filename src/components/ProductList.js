@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ProductItem from './ProductItem';
 
 import { connect } from 'react-redux';
-import { getProducts } from '../actions/products';
+import { filterProducts, getProducts } from '../actions/products';
 import { addToCart } from '../actions/cart';
 import { getVisibleProducts } from '../reducers/products';
 
@@ -15,11 +15,12 @@ class ProductList extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.createProductItems = this.createProductItems.bind(this);
+    this.refresh = this.refresh.bind(this);
   }
 
   handleChange(event) {
     this.setState({value: event.target.value});
-    this.props.getProducts(event.target.value.toUpperCase());
+    this.props.filterProducts(event.target.value.toUpperCase());
   }
 
   createProductItems() {
@@ -32,16 +33,22 @@ class ProductList extends Component {
     );
   }
 
+  refresh() {
+    this.setState({value: ''});
+    this.props.getProducts();
+  }
+
   render() {
     return (
       <div>
         <h3>Products</h3>
+        <button onClick={this.refresh}> Refresh Product List </button>
+        <br/><br/>
         <label>
           Filter by Brand:
           <input type="text" value={this.state.value} onChange={this.handleChange}/>
         </label>
-        <br/>
-        <br/>
+        <br/><br/>
         {this.createProductItems()}
       </div>
     );
@@ -64,4 +71,4 @@ function mapStateToProps(state) {
    };
  }
 
-export default connect(mapStateToProps,{ addToCart, getProducts })(ProductList);
+export default connect(mapStateToProps,{ addToCart, filterProducts, getProducts })(ProductList);
