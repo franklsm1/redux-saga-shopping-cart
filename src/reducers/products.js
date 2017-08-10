@@ -36,6 +36,10 @@ function byId(state = {}, action) {
       return {
         ...state,
         ...action.products.reduce((obj, product) => {
+          //if product id is already in the state use its current inventory
+          if (state[product.id]) {
+            product.inventory = state[product.id].inventory;
+          }
           obj[product.id] = product;
           return obj;
         }, {})

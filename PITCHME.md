@@ -22,7 +22,7 @@
 
 - Provides essentially the same functionality as ES7 `async/await` keywords (which are built on top of generators), but slightly more complex
 
-+++
+---
 
 Take code we are used to writing like:
 ```javascript
@@ -42,7 +42,7 @@ console.log(iceCreams);
 ```
 As you can see this makes asynchronous code look synchronous and is much easier to read
 
-+++
+---
 
 ### Generator Function Example
 ```javascript
@@ -103,7 +103,7 @@ export function* watchFetchData() {
 @[7](console.log of the effect:<br>{ '@@redux-saga/IO': true,<br> PUT: { channel: null, action: { type: 'FAILED', error: 'error occurred' }}})
 <br><br><br><br>
 
-+++
+---
 
 **Unit Testing Sagas**
 ```javascript
@@ -144,7 +144,7 @@ function fetchData(url){
 - Components shouldn't include logic to fetch data
 - Not easy to test without significant mocking
 
-+++
+---
 
 ### Steps to correct this with Redux-Saga
 1. Install redux-saga: `npm install redux-saga`
@@ -159,7 +159,7 @@ function fetchData(url){
 
 6. Remove the initial fetch call from the component
 
-+++
+---
 
 ### Example Saga file
 **src/sagas/items.js**
@@ -180,7 +180,7 @@ export function* getItems() {
 }
 ```
 
-+++
+---
 
 ### Root Saga to communicate w/ the middleware
 **src/sagas/index.js**
@@ -193,10 +193,10 @@ export default function* root(){
 }
 ```
 
-+++
+---
 
 ### Wiring the store with the saga middleware
-Where your react-redux `Provider` is add the following:
+Where your react-redux `Provider` is, add the following:
 ```javascript
 import rootSaga from './sagas';
 
@@ -211,11 +211,13 @@ sagaMiddleware.run(rootSaga);
 ---
 
 # Live Demo
+[project repo link](https://github.com/franklsm1/redux-saga-shopping-cart)
 
 ---
 
 ### Useful links
 - [redux-saga API](https://redux-saga.js.org/docs/api/)
 - [intro to ES6 generator functions](http://thejsguy.com/2016/10/15/a-practical-introduction-to-es6-generator-functions.html)
-- [moving API requests in React to Redux-Saga's](https://hackernoon.com/moving-api-requests-to-redux-saga-21780f49cbc8)
 - [interview with the writer of redux-saga](https://survivejs.com/blog/redux-saga-interview)
+- [Thunk vs Saga vs Redux Promise in 10 minutes](https://medium.com/react-native-training/redux-4-ways-95a130da0cdc)
+- [moving API requests in React to Redux-Saga's](https://hackernoon.com/moving-api-requests-to-redux-saga-21780f49cbc8)
